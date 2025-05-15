@@ -4,7 +4,7 @@ from pytubefix.cli import on_progress
 from moviepy import AudioFileClip
 import os, shutil, re
 from pathlib import Path
-from colorama import init, Fore, Style
+from colorama import init, Fore
 import unicodedata
 
 init(autoreset=True)
@@ -17,12 +17,14 @@ def limpar_nome(nome):
     return nome
 
 pasta_atual = Path(".").resolve()
+nome_limpo = None  # Variável no nível do módulo
 
 class Download_link():
     def __init__(self, url):
         self.video_url = url
-        self.run()
-        self.move_create()
+        self.nome_final = self.run()
+        if self.nome_final:
+            self.move_create()
 
     def run(self):
         try:
@@ -46,9 +48,11 @@ class Download_link():
 
             os.remove(f"{pasta_atual}/{nome_limpo}.m4a")
             print(Fore.MAGENTA + "🗑️ Arquivo temporário removido")
+            return nome_limpo
 
         except Exception as e:
             print(Fore.RED + f"\n❌ Erro durante o processo: {e}")
+            return None
 
     def move_create(self):
         try:
@@ -62,14 +66,3 @@ class Download_link():
             print(Fore.GREEN + f"\n📁 Arquivo movido para: {destino_final}")
         except Exception as e:
             print(Fore.RED + f"\n❌ Erro ao mover o arquivo: {e}")
-
-# Execução
-if __name__ == "__main__":
-    print(Fore.CYAN + "🎵 Conversor de Áudio do YouTube → MP3")
-    print(Fore.WHITE + "Digite a URL do vídeo abaixo:\n")
-
-    url = input(Fore.YELLOW + "🔸 URL: ").strip()
-    if url:
-        Download_link(url)
-    else:
-        print(Fore.RED + "❌ Nenhuma URL fornecida.")

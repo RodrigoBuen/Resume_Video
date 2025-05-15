@@ -5,14 +5,13 @@ name = "pypi"
 
 [packages]
 groq = "*"
-agno = "*"
-duckduckgo-search = "*"
 dotenv = "*"
-openai = "*"
+agno = "*"
 pytubefix = "*"
 moviepy = "*"
+openai-whisper = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.13"
+python_version = "3.11"
